@@ -14,7 +14,6 @@
 
       <!-- Main Container -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <!-- Form Section - LARGER -->
         <div class="lg:col-span-5">
           <form (ngSubmit)="handleCalculatePricePerItem()"
             class="bg-white/98 backdrop-blur rounded-2xl p-8 shadow-2xl border border-white/20 h-full">
@@ -26,7 +25,7 @@
                 style="font-family: 'Nokora', sans-serif;">ចំនួនទំនិញ</label>
               <input
                 class="border-2 border-amber-300 rounded-xl block px-5 py-4 w-full text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                type="number" [(ngModel)]="quantity" name="quantity" placeholder="បញ្ចូលចំនួន...">
+                type="number" [(ngModel)]="quantity" name="quantity" placeholder="បញ្ចូលចំនួន..." inputmode="numeric">
             </div>
 
             <div class="mb-8">
@@ -35,7 +34,7 @@
               <div class="flex gap-3">
                 <input placeholder="តម្លៃ..."
                   class="border-2 border-amber-300 rounded-xl grow px-5 py-4 text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                  type="number" [(ngModel)]="unitPrice" name="unitPrice">
+                  type="number" [(ngModel)]="unitPrice" name="unitPrice" inputmode="decimal">
                 <select [(ngModel)]="inputCurrency" name="inputCurrency"
                   class="border-2 border-amber-300 rounded-xl px-4 py-4 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold text-amber-700 text-base w-24">
                   <option value="USD">ដុល្លា</option>
@@ -46,10 +45,37 @@
 
             <div class="mb-8">
               <label class="block text-base md:text-lg font-semibold text-amber-800 mb-3"
-                style="font-family: 'Nokora', sans-serif;">តម្លៃលក់ចេញ</label>
-              <input
-                class="border-2 border-amber-300 rounded-xl block px-5 py-4 w-full text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
-                type="number" [(ngModel)]="salePrice" name="salePrice" placeholder="តម្លៃលក់...">
+                style="font-family: 'Nokora', sans-serif;">ប្រភេទតម្លៃលក់</label>
+              <div class="flex p-1 bg-amber-100 rounded-xl">
+                <button type="button" (click)="salePriceType = 'perItem'" [class.bg-white]="salePriceType === 'perItem'"
+                  [class.text-amber-700]="salePriceType === 'perItem'" [class.shadow-sm]="salePriceType === 'perItem'"
+                  class="flex-1 py-2 px-4 rounded-lg text-sm font-bold transition-all text-amber-600">
+                  ក្នុងមួយមុខ
+                </button>
+                <button type="button" (click)="salePriceType = 'total'" [class.bg-white]="salePriceType === 'total'"
+                  [class.text-amber-700]="salePriceType === 'total'" [class.shadow-sm]="salePriceType === 'total'"
+                  class="flex-1 py-2 px-4 rounded-lg text-sm font-bold transition-all text-amber-600">
+                  លក់សរុប
+                </button>
+              </div>
+            </div>
+
+            <div class="mb-8">
+              <label class="block text-base md:text-lg font-semibold text-amber-800 mb-3"
+                style="font-family: 'Nokora', sans-serif;">{{ salePriceType === 'perItem' ? 'តម្លៃលក់ចេញ
+                (ក្នុងមួយទំនិញ)' : 'តម្លៃលក់ចេញ (សរុប)' }}</label>
+              <div class="flex gap-3">
+                <input
+                  class="border-2 border-amber-300 rounded-xl grow px-5 py-4 text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  type="number" [(ngModel)]="salePrice" name="salePrice"
+                  [placeholder]="salePriceType === 'perItem' ? 'តម្លៃលក់ក្នុងមួយមុខ...' : 'តម្លៃលក់សរុប...'"
+                  inputmode="decimal">
+                <select [(ngModel)]="saleCurrency" name="saleCurrency"
+                  class="border-2 border-amber-300 rounded-xl px-4 py-4 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold text-amber-700 text-base w-24">
+                  <option value="USD">ដុល្លា</option>
+                  <option value="KHR">ខ្មែរ</option>
+                </select>
+              </div>
               <p class="text-sm text-amber-600 mt-2">(មិនដាក់ក៏បាន)</p>
             </div>
 
@@ -64,8 +90,11 @@
           <!-- USD Price -->
           <div
             class="bg-gradient-to-br from-rose-500/90 to-rose-600/90 backdrop-blur rounded-2xl p-7 shadow-xl border border-rose-300/30 flex-1">
-            <h3 class="text-base font-bold text-rose-100 mb-5 uppercase tracking-wide"
-              style="font-family: 'Nokora', sans-serif;">តម្លៃដុល្លា (USD)</h3>
+            <h3 class="text-base font-bold text-rose-100 mb-5 uppercase tracking-wide flex items-center gap-3"
+              style="font-family: 'Nokora', sans-serif;">
+              <img src="https://flagcdn.com/w40/us.png" alt="USA Flag" class="w-8 h-auto rounded-sm shadow-sm">
+              តម្លៃដុល្លា (USD)
+            </h3>
             <div class="space-y-4">
               <div>
                 <p class="text-sm text-rose-100 mb-2">ក្នុងមួយទំនិញ</p>
@@ -81,8 +110,11 @@
           <!-- KHR Price -->
           <div
             class="bg-gradient-to-br from-blue-500/90 to-blue-600/90 backdrop-blur rounded-2xl p-7 shadow-xl border border-blue-300/30 flex-1">
-            <h3 class="text-base font-bold text-blue-100 mb-5 uppercase tracking-wide"
-              style="font-family: 'Nokora', sans-serif;">តម្លៃរៀល (KHR)</h3>
+            <h3 class="text-base font-bold text-blue-100 mb-5 uppercase tracking-wide flex items-center gap-3"
+              style="font-family: 'Nokora', sans-serif;">
+              <img src="https://flagcdn.com/w40/kh.png" alt="Cambodia Flag" class="w-8 h-auto rounded-sm shadow-sm">
+              តម្លៃរៀល (KHR)
+            </h3>
             <div class="space-y-4">
               <div>
                 <p class="text-sm text-blue-100 mb-2">ក្នុងមួយទំនិញ</p>
@@ -95,14 +127,6 @@
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Exchange Rate -->
-      <div class="mt-8 bg-white/98 backdrop-blur rounded-2xl p-5 shadow-lg border border-white/20 text-center">
-        <p class="text-base md:text-lg font-semibold text-amber-800" style="font-family: 'Nokora', sans-serif;">
-          អត្រាផ្លាស់ប្តូរ: <span class="text-amber-700 font-bold text-xl">1 USD = {{exchangerate?.rates?.KHR || 4000}}
-            KHR</span>
-        </p>
       </div>
 
       <!-- Simplified Profit Section -->
@@ -155,6 +179,23 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Exchange Rate -->
+      <div class="mt-8 bg-white/98 backdrop-blur rounded-2xl p-5 shadow-lg border border-white/20 text-center">
+        <p class="text-base md:text-lg font-semibold text-amber-800 flex items-center justify-center gap-3 flex-wrap"
+          style="font-family: 'Nokora', sans-serif;">
+          អត្រាផ្លាស់ប្តូរ:
+          <span class="flex items-center gap-1.5 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
+            <img src="https://flagcdn.com/w20/us.png" class="w-5 h-auto rounded-xs" alt="USD">
+            <span class="text-amber-700 font-bold text-lg">1 USD</span>
+          </span>
+          <span class="text-amber-400 font-bold">⇌</span>
+          <span class="flex items-center gap-1.5 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
+            <img src="https://flagcdn.com/w20/kh.png" class="w-5 h-auto rounded-xs" alt="KHR">
+            <span class="text-amber-700 font-bold text-lg">{{exchangerate?.rates?.KHR || 4000}} KHR</span>
+          </span>
+        </p>
       </div>
 
     </div>

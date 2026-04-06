@@ -4,7 +4,7 @@ import { CalculateComponent } from "./features/calculate/calculate.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CalculateComponent],
+  imports: [CalculateComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
