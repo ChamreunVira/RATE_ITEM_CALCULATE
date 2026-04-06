@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Nokora:wght@400;700&display=swap');
+
+:host {
+  display: block;
+  min-height: 100vh;
+  font-family: 'Nokora', sans-serif;
+}
+
+* {
+  font-family: 'Nokora', sans-serif;
+}
+
+/* Smooth transitions for inputs */
+input, select {
+  transition: all 0.3s ease;
+  font-family: 'Nokora', sans-serif;
+}
+
+input:focus, select:focus {
+  transform: translateY(-2px);
+}
+
+/* Mobile: disable transform on small screens */
+@media (max-width: 640px) {
+  input:focus, select:focus {
+    transform: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Button hover effects */
+button {
+  transition: all 0.3s ease;
+  font-family: 'Nokora', sans-serif;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(180, 83, 9, 0.3);
+}
+
+@media (max-width: 640px) {
+  button:hover {
+    transform: none;
+  }
+
+  button:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Result cards animation */
+.rounded-2xl, .rounded-3xl {
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Glassmorphism Refinement */
+.backdrop-blur {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Currency selector styling */
+select {
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=UTF-8,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%2392400e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"%3e%3cpolyline points="6 9 12 15 18 9"%3e%3c/polyline%3e%3c/svg%3e');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1em 1em;
+  padding-right: 2.5rem;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .text-5xl { font-size: 2.5rem; }
+  .text-4xl { font-size: 2rem; }
+  
+  .p-8 { padding: 1.5rem; }
+  .p-7 { padding: 1.25rem; }
+}
+
+/* Premium Card Effects */
+.hover-premium {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-premium:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Profit Card Specifics */
+.group:hover .blur-2xl {
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.2);
+}
+

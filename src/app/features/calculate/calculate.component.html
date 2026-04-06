@@ -1,0 +1,160 @@
+<main class="relative min-h-screen overflow-x-hidden bg-cover bg-center bg-no-repeat bg-fixed"
+  style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('angkor-wat-temple.jpeg'); font-family: 'Nokora', sans-serif;">
+  <div class="mx-auto container">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-6 sm:py-8 md:py-12">
+
+      <!-- Header -->
+      <div class="text-center mb-8 md:mb-12">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 text-amber-300 drop-shadow-lg"
+          style="font-family: 'Nokora', sans-serif;">
+          ប្រព័ន្ធគណនាតម្លៃទំនិញវ័យឆ្លាត</h1>
+      </div>
+
+      <!-- Main Container -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Form Section - LARGER -->
+        <div class="lg:col-span-5">
+          <form (ngSubmit)="handleCalculatePricePerItem()"
+            class="bg-white/98 backdrop-blur rounded-2xl p-8 shadow-2xl border border-white/20 h-full">
+            <h2 class="text-2xl md:text-3xl font-bold text-amber-700 mb-8" style="font-family: 'Nokora', sans-serif;">
+              ព័ត៌មានទំនិញ</h2>
+
+            <div class="mb-8">
+              <label class="block text-base md:text-lg font-semibold text-amber-800 mb-3"
+                style="font-family: 'Nokora', sans-serif;">ចំនួនទំនិញ</label>
+              <input
+                class="border-2 border-amber-300 rounded-xl block px-5 py-4 w-full text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                type="number" [(ngModel)]="quantity" name="quantity" placeholder="បញ្ចូលចំនួន...">
+            </div>
+
+            <div class="mb-8">
+              <label class="block text-base md:text-lg font-semibold text-amber-800 mb-3"
+                style="font-family: 'Nokora', sans-serif;">តម្លៃរាយ</label>
+              <div class="flex gap-3">
+                <input placeholder="តម្លៃ..."
+                  class="border-2 border-amber-300 rounded-xl grow px-5 py-4 text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                  type="number" [(ngModel)]="unitPrice" name="unitPrice">
+                <select [(ngModel)]="inputCurrency" name="inputCurrency"
+                  class="border-2 border-amber-300 rounded-xl px-4 py-4 bg-white focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold text-amber-700 text-base w-24">
+                  <option value="USD">ដុល្លា</option>
+                  <option value="KHR">ខ្មែរ</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-8">
+              <label class="block text-base md:text-lg font-semibold text-amber-800 mb-3"
+                style="font-family: 'Nokora', sans-serif;">តម្លៃលក់ចេញ</label>
+              <input
+                class="border-2 border-amber-300 rounded-xl block px-5 py-4 w-full text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                type="number" [(ngModel)]="salePrice" name="salePrice" placeholder="តម្លៃលក់...">
+              <p class="text-sm text-amber-600 mt-2">(ឱ្យបាននូវលទ្ធផលចំណេញ)</p>
+            </div>
+
+            <button type="submit"
+              class="w-full py-4 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-bold rounded-xl hover:from-amber-700 hover:to-amber-800 transition transform hover:scale-105 text-lg md:text-xl shadow-lg"
+              style="font-family: 'Nokora', sans-serif;">គណនា</button>
+          </form>
+        </div>
+
+        <!-- Price Cards Section - BIG DISPLAY -->
+        <div class="lg:col-span-7 space-y-4 flex flex-col">
+          <!-- USD Price -->
+          <div
+            class="bg-gradient-to-br from-rose-500/90 to-rose-600/90 backdrop-blur rounded-2xl p-7 shadow-xl border border-rose-300/30 flex-1">
+            <h3 class="text-base font-bold text-rose-100 mb-5 uppercase tracking-wide"
+              style="font-family: 'Nokora', sans-serif;">តម្លៃដុល្លា (USD)</h3>
+            <div class="space-y-4">
+              <div>
+                <p class="text-sm text-rose-100 mb-2">ក្នុងមួយទំនិញ</p>
+                <p class="text-5xl md:text-6xl font-bold text-white">${{pricePerItemUSD.toFixed(2)}}</p>
+              </div>
+              <div class="border-t border-rose-300/30 pt-4">
+                <p class="text-sm text-rose-100 mb-2">សរុប</p>
+                <p class="text-5xl md:text-6xl font-bold text-amber-100">${{getTotalUSD().toFixed(2)}}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- KHR Price -->
+          <div
+            class="bg-gradient-to-br from-blue-500/90 to-blue-600/90 backdrop-blur rounded-2xl p-7 shadow-xl border border-blue-300/30 flex-1">
+            <h3 class="text-base font-bold text-blue-100 mb-5 uppercase tracking-wide"
+              style="font-family: 'Nokora', sans-serif;">តម្លៃរៀល (KHR)</h3>
+            <div class="space-y-4">
+              <div>
+                <p class="text-sm text-blue-100 mb-2">ក្នុងមួយទំនិញ</p>
+                <p class="text-5xl md:text-6xl font-bold text-white">{{pricePerItemKHR.toLocaleString('en-US')}}៛</p>
+              </div>
+              <div class="border-t border-blue-300/30 pt-4">
+                <p class="text-sm text-blue-100 mb-2">សរុប</p>
+                <p class="text-5xl md:text-6xl font-bold text-amber-100">{{getTotalKHR().toLocaleString('en-US')}}៛</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exchange Rate -->
+      <div class="mt-8 bg-white/98 backdrop-blur rounded-2xl p-5 shadow-lg border border-white/20 text-center">
+        <p class="text-base md:text-lg font-semibold text-amber-800" style="font-family: 'Nokora', sans-serif;">
+          អត្រាផ្លាស់ប្តូរ: <span class="text-amber-700 font-bold text-xl">1 USD = {{exchangerate?.rates?.KHR || 4000}}
+            KHR</span>
+        </p>
+      </div>
+
+      <!-- Simplified Profit Section -->
+      <div *ngIf="salePrice > 0" class="mt-8">
+        <div class="bg-white/95 backdrop-blur rounded-3xl p-8 shadow-2xl border border-white/20">
+          <h3 class="text-2xl font-bold text-amber-900 mb-8 flex items-center gap-3"
+            style="font-family: 'Nokora', sans-serif;">
+            <span class="p-2 bg-amber-100 rounded-lg text-2xl">💰</span>
+            សរុបប្រាក់ចំណេញ
+          </h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Total Profit USD -->
+            <div
+              class="relative overflow-hidden group bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-6 transition-all duration-300 hover:shadow-emerald-200/50 hover:shadow-2xl">
+              <div class="relative z-10">
+                <p class="text-emerald-50 text-sm font-medium mb-1 uppercase tracking-wider">ចំណេញសរុប (USD)</p>
+                <div class="flex items-baseline gap-2">
+                  <span class="text-4xl md:text-5xl font-black text-white">
+                    ${{getProfitUSD().toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}}
+                  </span>
+                  <span class="text-emerald-100 text-xl">{{getProfitUSD() > 0 ? '📈' : (getProfitUSD() < 0 ? '📉' : '➖'
+                      )}}</span>
+                </div>
+              </div>
+              <!-- Decorative element -->
+              <div
+                class="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-colors">
+              </div>
+            </div>
+
+            <!-- Total Profit KHR -->
+            <div
+              class="relative overflow-hidden group bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl p-6 transition-all duration-300 hover:shadow-blue-200/50 hover:shadow-2xl">
+              <div class="relative z-10">
+                <p class="text-blue-50 text-sm font-medium mb-1 uppercase tracking-wider">ចំណេញសរុប (KHR)</p>
+                <div class="flex items-baseline gap-2">
+                  <span class="text-4xl md:text-5xl font-black text-white">
+                    {{getProfitKHR().toLocaleString('en-US')}} ៛
+                  </span>
+                  <span class="text-blue-100 text-xl">{{getProfitKHR() > 0 ? '📈' : (getProfitKHR() < 0 ? '📉' : '➖'
+                      )}}</span>
+                </div>
+              </div>
+
+              <!-- Decorative element -->
+              <div
+                class="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-colors">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
