@@ -4,7 +4,7 @@ import { CurrencyService } from '../../core/servicxe/currency.service';
 import { CurrencyPipe, NgIf } from '@angular/common';
 @Component({
   selector: 'app-calculate',
-  imports: [FormsModule, CurrencyPipe, NgIf],
+  imports: [FormsModule, NgIf],
   templateUrl: './calculate.component.html',
   styleUrl: './calculate.component.css',
 })
